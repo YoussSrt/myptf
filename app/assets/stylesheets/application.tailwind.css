@@ -1,3 +1,68 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --primary-color: #006D77;
+  --primary-color-rgb: 0, 109, 119;
+  --accent-color: #83C5BE;
+  --accent-color-rgb: 131, 197, 190;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-white font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary/20 text-white;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold transition-all duration-300;
+  }
+
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 shadow-xl;
+  }
+
+  .nav-link {
+    @apply text-white/80 hover:text-white transition-colors duration-300;
+  }
+
+  .project-card {
+    @apply glass-card overflow-hidden;
+  }
+
+  .skill-bar {
+    @apply rounded-full overflow-hidden bg-white/10;
+  }
+
+  .testimonial-card {
+    @apply glass-card p-6;
+  }
+
+  .form-input,
+  .form-textarea {
+    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  }
+
+  .bg-gradient {
+    @apply bg-gradient-to-r from-primary to-accent;
+  }
+}
+
+/* Import animations */
+@import "animations.css";
