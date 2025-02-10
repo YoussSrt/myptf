@@ -2,23 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary-color: #006D77;
-  --primary-color-rgb: 0, 109, 119;
-  --accent-color: #83C5BE;
-  --accent-color-rgb: 131, 197, 190;
-  --font-heading: 'Clash Display', sans-serif;
-  --font-body: 'Inter', sans-serif;
-}
-
 @layer base {
+  :root {
+    --color-primary: #006D77;
+    --color-accent: #83C5BE;
+  }
+
   html {
     scroll-behavior: smooth;
     @apply antialiased;
   }
 
   body {
-    @apply bg-black text-white font-body overflow-x-hidden;
+    @apply text-white;
+    @apply font-body;
+    @apply overflow-x-hidden;
+    background-color: #000000;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
   }
 
@@ -62,39 +61,40 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-semibold transition-all duration-300
-           hover:bg-primary/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/20
-           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-black;
+    @apply inline-flex items-center px-6 py-3 rounded-lg text-white font-semibold transition-all duration-300
+           hover:scale-105 hover:shadow-lg
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+    background-color: var(--color-primary);
   }
 
   .btn-secondary {
-    @apply inline-flex items-center px-6 py-3 rounded-lg bg-white/10 text-white font-semibold transition-all duration-300
-           hover:bg-white/20 hover:scale-105 hover:shadow-lg
-           focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black;
+    @apply inline-flex items-center px-6 py-3 rounded-lg text-white font-semibold transition-all duration-300
+           hover:scale-105 hover:shadow-lg
+           focus:outline-none focus:ring-2 focus:ring-offset-2;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .glass-card {
-    @apply bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 shadow-xl
-           hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300
-           hover:border-primary/20;
+    @apply backdrop-blur-lg rounded-xl border shadow-xl
+           hover:shadow-2xl transition-all duration-300;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .nav-link {
-    @apply text-white/80 hover:text-white transition-colors duration-300 relative
-           after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5
-           after:bg-gradient-to-r after:from-primary after:to-accent
-           after:transition-all after:duration-300
-           hover:after:w-full;
+    @apply text-white/80 hover:text-white transition-colors duration-300 relative;
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply text-3xl md:text-4xl font-bold text-center mb-12;
+    background: linear-gradient(to right, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .skill-bar {
-    @apply h-2 rounded-full bg-white/10 overflow-hidden relative
-           before:absolute before:inset-0 before:bg-gradient-to-r before:from-primary before:to-accent
-           before:transform before:translate-x-[-100%] before:animate-slide;
+    @apply h-2 rounded-full overflow-hidden relative;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   /* Enhanced form inputs */
@@ -110,18 +110,21 @@
   .form-input:not(:placeholder-shown) ~ .form-label,
   .form-textarea:focus ~ .form-label,
   .form-textarea:not(:placeholder-shown) ~ .form-label {
-    @apply -top-6 left-0 text-primary text-sm;
+    @apply -top-6 left-0 text-sm;
+    color: var(--color-primary);
   }
 
   .form-input,
   .form-textarea {
-    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white
-           transition-all duration-300 outline-none;
+    @apply w-full px-4 py-3 rounded-lg text-white transition-all duration-300 outline-none;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .form-input:focus,
   .form-textarea:focus {
-    @apply border-primary shadow-lg shadow-primary/20;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(0, 109, 119, 0.2);
   }
 
   /* Enhanced social links */
@@ -158,11 +161,13 @@
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    background: linear-gradient(to right, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .bg-gradient {
-    @apply bg-gradient-to-r from-primary to-accent;
+    background: linear-gradient(to right, var(--color-primary), var(--color-accent));
   }
 
   .animate-slide {
@@ -178,6 +183,7 @@
   }
 }
 
+/* Animations */
 @keyframes slide {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
@@ -194,5 +200,71 @@
   }
 }
 
-/* Import animations */
-@import "animations.css";
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes skillProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Loading Animation */
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* Success Message Animation */
+.success-message {
+  animation: slideInRight 0.5s ease forwards;
+}
