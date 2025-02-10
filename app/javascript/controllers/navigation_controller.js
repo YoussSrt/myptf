@@ -1,21 +1,55 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["content"]
+  static targets = ["content", "mobileMenu", "menuIcon"]
 
   connect() {
     this.setupNavigationHandlers()
     this.initializeAnimations()
+    this.setupResizeHandler()
+    this.setupScrollHandler()
+  }
+
+  disconnect() {
+    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('scroll', this.handleScroll)
   }
 
   setupNavigationHandlers() {
-    document.querySelectorAll('.nav-link').forEach(link => {
-      link.addEventListener('click', (e) => {
+    // Use event delegation instead of multiple event listeners
+    document.body.addEventListener('click', (e) => {
+      const navLink = e.target.closest('.nav-link')
+      if (navLink) {
         e.preventDefault()
-        const section = e.target.getAttribute('href').replace('/', '')
+        const section = navLink.getAttribute('href').replace('/', '')
         this.loadSection(section)
-      })
+      }
     })
+  }
+
+  setupResizeHandler() {
+    this.handleResize = this.handleResize.bind(this)
+    window.addEventListener('resize', this.handleResize)
+  }
+
+  setupScrollHandler() {
+    // Use throttle to limit scroll event firing
+    this.handleScroll = this.throttle(this.updateActiveNavLink.bind(this), 100)
+    window.addEventListener('scroll', this.handleScroll)
+  }
+
+  handleResize() {
+    if (window.innerWidth >= 768) {
+      this.mobileMenuTarget.classList.add('hidden')
+      this.menuIconTarget.setAttribute('d', 'M4 6h16M4 12h16M4 18h16')
+    }
+  }
+
+  toggleMobileMenu() {
+    const isHidden = this.mobileMenuTarget.classList.contains('hidden')
+    this.mobileMenuTarget.classList.toggle('hidden')
+    this.mobileMenuTarget.classList.toggle('animate-fade-in')
+    this.menuIconTarget.setAttribute('d', isHidden ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16')
   }
 
   async loadSection(section) {
@@ -24,42 +58,64 @@ export default class extends Controller {
       if (!response.ok) throw new Error('Network response was not ok')
 
       const content = await response.text()
-
-      // Fade out current content
-      const mainContent = document.getElementById('main-content')
-      mainContent.style.opacity = 0
-
-      // Wait for fade out animation
-      setTimeout(() => {
-        // Update content
-        mainContent.innerHTML = content
-
-        // Reinitialize animations and scripts
+      this.fadeTransition(() => {
+        this.contentTarget.innerHTML = content
         this.initializeAnimations()
-
-        // Fade in new content
-        mainContent.style.opacity = 1
-
-        // Update URL without page reload
         history.pushState({}, '', `/${section}`)
-
-        // Scroll to top smoothly
         window.scrollTo({ top: 0, behavior: 'smooth' })
-      }, 300)
+      })
     } catch (error) {
       console.error('Error loading section:', error)
     }
   }
 
-  initializeAnimations() {
-    // Reinitialize AOS
-    if (window.AOS) {
-      AOS.refresh()
-    }
+  fadeTransition(callback) {
+    this.contentTarget.style.opacity = 0
+    setTimeout(() => {
+      callback()
+      this.contentTarget.style.opacity = 1
+    }, 300)
+  }
 
-    // Reinitialize Typed.js if needed
-    const typedElement = document.getElementById('typed-text')
-    if (typedElement && window.Typed) {
+  updateActiveNavLink() {
+    const sections = document.querySelectorAll('section[id]')
+    const navLinks = document.querySelectorAll('.nav-link')
+    const scrollPosition = window.scrollY + window.innerHeight / 3
+
+    let currentSection = ''
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop
+      const sectionHeight = section.clientHeight
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        currentSection = section.getAttribute('id')
+      }
+    })
+
+    navLinks.forEach(link => {
+      const indicator = link.querySelector('div')
+      const isActive = link.getAttribute('href').replace('#', '') === currentSection
+      link.classList.toggle('text-primary', isActive)
+      indicator?.classList.toggle('h-full', isActive)
+      indicator?.classList.toggle('h-0', !isActive)
+    })
+  }
+
+  throttle(func, limit) {
+    let inThrottle
+    return function(...args) {
+      if (!inThrottle) {
+        func.apply(this, args)
+        inThrottle = true
+        setTimeout(() => inThrottle = false, limit)
+      }
+    }
+  }
+
+  initializeAnimations() {
+    // Initialize libraries only if they exist
+    if (window.AOS) AOS.refresh()
+
+    if (window.Typed && document.getElementById('typed-text')) {
       new Typed('#typed-text', {
         strings: [
           'Full Stack Developer',
@@ -74,12 +130,10 @@ export default class extends Controller {
       })
     }
 
-    // Reinitialize Particles.js if needed
-    const particlesElement = document.getElementById('particles-js')
-    if (particlesElement && window.particlesJS) {
+    if (window.particlesJS && document.getElementById('particles-js')) {
       particlesJS('particles-js', {
         particles: {
-          number: { value: 80, density: { enable: true, value_area: 800 } },
+          number: { value: 40, density: { enable: true, value_area: 800 } },
           color: { value: '#ffffff' },
           shape: { type: 'circle' },
           opacity: { value: 0.5, random: true },
@@ -113,10 +167,9 @@ export default class extends Controller {
       })
     }
 
-    // Reinitialize Swiper if needed
     const swiperElement = document.querySelector('.testimonials-slider')
-    if (swiperElement && window.Swiper) {
-      new Swiper('.testimonials-slider', {
+    if (window.Swiper && swiperElement) {
+      new Swiper(swiperElement, {
         slidesPerView: 1,
         spaceBetween: 30,
         loop: true,
@@ -133,15 +186,11 @@ export default class extends Controller {
           prevEl: '.prev-button',
         },
         effect: 'fade',
-        fadeEffect: {
-          crossFade: true
-        }
+        fadeEffect: { crossFade: true }
       })
     }
 
-    // Initialize GSAP animations
     if (window.gsap && window.ScrollTrigger) {
-      // Animate sections on scroll
       gsap.utils.toArray('.animate-on-scroll').forEach(section => {
         gsap.from(section, {
           opacity: 0,

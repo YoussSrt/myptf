@@ -7,50 +7,152 @@
   --primary-color-rgb: 0, 109, 119;
   --accent-color: #83C5BE;
   --accent-color-rgb: 131, 197, 190;
+  --font-heading: 'Clash Display', sans-serif;
+  --font-body: 'Inter', sans-serif;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    @apply antialiased;
+  }
+
   body {
-    @apply bg-black text-white font-sans antialiased;
+    @apply bg-black text-white font-body overflow-x-hidden;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-bold;
   }
 
   ::selection {
     @apply bg-primary/20 text-white;
   }
+
+  /* Full-page snap scrolling */
+  .snap-container {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  .snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  /* Enhanced section transitions */
+  .section-transition {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .section-transition.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center px-6 py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold transition-all duration-300;
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-primary text-white font-semibold transition-all duration-300
+           hover:bg-primary/90 hover:scale-105 hover:shadow-lg hover:shadow-primary/20
+           focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-black;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center px-6 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-semibold transition-all duration-300;
+    @apply inline-flex items-center px-6 py-3 rounded-lg bg-white/10 text-white font-semibold transition-all duration-300
+           hover:bg-white/20 hover:scale-105 hover:shadow-lg
+           focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-black;
   }
 
   .glass-card {
-    @apply bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 shadow-xl;
+    @apply bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 shadow-xl
+           hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300
+           hover:border-primary/20;
   }
 
   .nav-link {
-    @apply text-white/80 hover:text-white transition-colors duration-300;
+    @apply text-white/80 hover:text-white transition-colors duration-300 relative
+           after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5
+           after:bg-gradient-to-r after:from-primary after:to-accent
+           after:transition-all after:duration-300
+           hover:after:w-full;
   }
 
-  .project-card {
-    @apply glass-card overflow-hidden;
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
   }
 
   .skill-bar {
-    @apply rounded-full overflow-hidden bg-white/10;
+    @apply h-2 rounded-full bg-white/10 overflow-hidden relative
+           before:absolute before:inset-0 before:bg-gradient-to-r before:from-primary before:to-accent
+           before:transform before:translate-x-[-100%] before:animate-slide;
   }
 
-  .testimonial-card {
-    @apply glass-card p-6;
+  /* Enhanced form inputs */
+  .form-group {
+    @apply relative;
+  }
+
+  .form-label {
+    @apply absolute left-4 top-3 text-gray-400 transition-all duration-300 pointer-events-none;
+  }
+
+  .form-input:focus ~ .form-label,
+  .form-input:not(:placeholder-shown) ~ .form-label,
+  .form-textarea:focus ~ .form-label,
+  .form-textarea:not(:placeholder-shown) ~ .form-label {
+    @apply -top-6 left-0 text-primary text-sm;
   }
 
   .form-input,
   .form-textarea {
-    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-300;
+    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white
+           transition-all duration-300 outline-none;
+  }
+
+  .form-input:focus,
+  .form-textarea:focus {
+    @apply border-primary shadow-lg shadow-primary/20;
+  }
+
+  /* Enhanced social links */
+  .social-link {
+    @apply flex items-center space-x-3 p-4 bg-white/5 rounded-lg
+           transition-all duration-300 transform hover:scale-105
+           hover:bg-white/10 hover:shadow-lg hover:shadow-primary/10;
+  }
+
+  /* Send button animation */
+  .send-button {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+
+  .send-button::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-primary to-accent
+           opacity-0 transition-opacity duration-300;
+  }
+
+  .send-button:hover::after {
+    @apply opacity-100;
+  }
+
+  .send-button .icon {
+    @apply absolute right-4 top-1/2 transform -translate-y-1/2
+           transition-all duration-300 opacity-0;
+  }
+
+  .send-button:hover .icon {
+    @apply opacity-100;
   }
 }
 
@@ -61,6 +163,34 @@
 
   .bg-gradient {
     @apply bg-gradient-to-r from-primary to-accent;
+  }
+
+  .animate-slide {
+    animation: slide 2s linear infinite;
+  }
+
+  .animate-fade-up {
+    animation: fadeUp 0.5s ease-out forwards;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1;
+  }
+}
+
+@keyframes slide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

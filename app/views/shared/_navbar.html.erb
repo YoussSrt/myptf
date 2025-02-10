@@ -1,55 +1,61 @@
-<nav class="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-lg border-b border-white/10">
-  <div class="container mx-auto px-4">
+<nav class="fixed top-0 left-0 right-0 z-50 w-full bg-black/80 backdrop-blur-lg border-b border-white/10">
+  <div class="w-full max-w-[2000px] mx-auto px-4 md:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
       <!-- Logo -->
-      <a href="/" class="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+      <a href="/" class="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:opacity-80 transition-opacity">
         YS
       </a>
 
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-8">
         <a href="#home" class="nav-link relative group" data-section="home">
-          <span>Home</span>
-          <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300"></div>
+          <span class="relative z-10">Home</span>
+          <div class="absolute inset-0 w-full h-full bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300"></div>
         </a>
         <a href="#about" class="nav-link relative group" data-section="about">
-          <span>About</span>
-          <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300"></div>
+          <span class="relative z-10">About</span>
+          <div class="absolute inset-0 w-full h-full bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300"></div>
         </a>
         <a href="#projects" class="nav-link relative group" data-section="projects">
-          <span>Projects</span>
-          <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300"></div>
+          <span class="relative z-10">Projects</span>
+          <div class="absolute inset-0 w-full h-full bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300"></div>
         </a>
         <a href="#skills" class="nav-link relative group" data-section="skills">
-          <span>Skills</span>
-          <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300"></div>
-        </a>
-        <a href="#testimonials" class="nav-link relative group" data-section="testimonials">
-          <span>Testimonials</span>
-          <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300"></div>
+          <span class="relative z-10">Skills</span>
+          <div class="absolute inset-0 w-full h-full bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300"></div>
         </a>
         <a href="#contact" class="nav-link relative group" data-section="contact">
-          <span>Contact</span>
-          <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1 h-0 bg-primary group-hover:h-full transition-all duration-300"></div>
+          <span class="relative z-10">Contact</span>
+          <div class="absolute inset-0 w-full h-full bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent group-hover:w-full transition-all duration-300"></div>
         </a>
       </div>
 
       <!-- Mobile Menu Button -->
-      <button class="md:hidden text-white focus:outline-none" onclick="toggleMobileMenu()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
+      <button class="md:hidden text-white focus:outline-none group" onclick="toggleMobileMenu()">
+        <div class="relative w-6 h-6">
+          <span id="menu-icon" class="absolute inset-0 flex items-center justify-center transform transition-transform duration-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </span>
+        </div>
       </button>
     </div>
 
     <!-- Mobile Navigation -->
-    <div id="mobile-menu" class="hidden md:hidden pb-4">
-      <a href="#home" class="block py-2 text-white/80 hover:text-white transition-colors nav-link" data-section="home">Home</a>
-      <a href="#about" class="block py-2 text-white/80 hover:text-white transition-colors nav-link" data-section="about">About</a>
-      <a href="#projects" class="block py-2 text-white/80 hover:text-white transition-colors nav-link" data-section="projects">Projects</a>
-      <a href="#skills" class="block py-2 text-white/80 hover:text-white transition-colors nav-link" data-section="skills">Skills</a>
-      <a href="#testimonials" class="block py-2 text-white/80 hover:text-white transition-colors nav-link" data-section="testimonials">Testimonials</a>
-      <a href="#contact" class="block py-2 text-white/80 hover:text-white transition-colors nav-link" data-section="contact">Contact</a>
+    <div id="mobile-menu" class="hidden md:hidden">
+      <div class="py-2 space-y-1">
+        <a href="#home" class="block px-4 py-2 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 nav-link" data-section="home">Home</a>
+        <a href="#about" class="block px-4 py-2 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 nav-link" data-section="about">About</a>
+        <a href="#projects" class="block px-4 py-2 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 nav-link" data-section="projects">Projects</a>
+        <a href="#skills" class="block px-4 py-2 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 nav-link" data-section="skills">Skills</a>
+        <a href="#contact" class="block px-4 py-2 text-white/80 hover:text-white hover:bg-white/5 rounded-lg transition-all duration-300 nav-link" data-section="contact">Contact</a>
+      </div>
     </div>
   </div>
 </nav>
@@ -58,55 +64,98 @@
   function toggleMobileMenu() {
     const mobileMenu = document.getElementById('mobile-menu');
     const menuIcon = document.getElementById('menu-icon');
+    const isOpen = !mobileMenu.classList.contains('hidden');
 
-    if (mobileMenu.classList.contains('hidden')) {
+    if (!isOpen) {
+      // Opening menu
       mobileMenu.classList.remove('hidden');
-      mobileMenu.classList.add('animate-fade-in');
-      menuIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+      mobileMenu.style.maxHeight = '0';
+      mobileMenu.style.opacity = '0';
+      requestAnimationFrame(() => {
+        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+        mobileMenu.style.opacity = '1';
+        menuIcon.style.transform = 'rotate(90deg)';
+      });
     } else {
-      mobileMenu.classList.add('hidden');
-      menuIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+      // Closing menu
+      mobileMenu.style.maxHeight = '0';
+      mobileMenu.style.opacity = '0';
+      menuIcon.style.transform = 'rotate(0)';
+      setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+      }, 300);
     }
   }
 
-  // Hide mobile menu on window resize if screen becomes larger
+  // Enhanced window resize handler
+  let resizeTimeout;
   window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768) {
-      document.getElementById('mobile-menu').classList.add('hidden');
-      document.getElementById('menu-icon').setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-    }
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (window.innerWidth >= 768) {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        mobileMenu.classList.add('hidden');
+        mobileMenu.style.maxHeight = null;
+        mobileMenu.style.opacity = null;
+        menuIcon.style.transform = 'rotate(0)';
+      }
+    }, 100);
   });
 
+  // Enhanced scroll spy for navigation
   function updateActiveNavLink() {
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-link');
 
-    let currentSection = '';
     const scrollPosition = window.scrollY + window.innerHeight / 3;
 
     sections.forEach(section => {
       const sectionTop = section.offsetTop;
       const sectionHeight = section.clientHeight;
-      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-        currentSection = section.getAttribute('id');
-      }
-    });
+      const sectionId = section.getAttribute('id');
 
-    navLinks.forEach(link => {
-      const indicator = link.querySelector('div');
-      if (link.getAttribute('href').replace('#', '') === currentSection) {
-        link.classList.add('text-primary');
-        indicator.classList.add('h-full');
-        indicator.classList.remove('h-0');
-      } else {
-        link.classList.remove('text-primary');
-        indicator.classList.remove('h-full');
-        indicator.classList.add('h-0');
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('text-primary');
+            link.querySelector('.absolute.bottom-0')?.classList.add('w-full');
+          } else {
+            link.classList.remove('text-primary');
+            link.querySelector('.absolute.bottom-0')?.classList.remove('w-full');
+          }
+        });
       }
     });
   }
 
-  // Update active nav link on scroll and load
-  window.addEventListener('scroll', updateActiveNavLink);
+  // Throttled scroll handler
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    if (!scrollTimeout) {
+      scrollTimeout = setTimeout(() => {
+        updateActiveNavLink();
+        scrollTimeout = null;
+      }, 100);
+    }
+  });
+
+  // Initialize on load
   window.addEventListener('load', updateActiveNavLink);
 </script>
+
+<style>
+#mobile-menu {
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.nav-link {
+  @apply px-3 py-2 rounded-lg transition-all duration-300;
+}
+
+#menu-icon {
+  transition: transform 0.3s ease-in-out;
+}
+</style>
