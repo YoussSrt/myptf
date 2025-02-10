@@ -212,8 +212,8 @@ html {
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize Typed.js with refined content
-  const typed = new Typed('#typed-text', {
+  // Initialize Typed.js
+  new Typed('#typed-text', {
     strings: [
       'Strategy and Operations Consultant',
       'Full Stack Developer',
@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loop: true
   });
 
-  // Initialize Particles.js with optimized settings
+  // Initialize Particles.js
   particlesJS('particles-js', {
     particles: {
       number: { value: 40, density: { enable: true, value_area: 800 } },
@@ -263,8 +263,18 @@ document.addEventListener('DOMContentLoaded', function() {
     retina_detect: true
   });
 
-  // Enhanced counter animation with IntersectionObserver
+  // Counter animation
   const counters = document.querySelectorAll('.counter');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const counter = entry.target;
+        const target = parseInt(counter.getAttribute('data-target'));
+        animateCounter(counter, target);
+        counterObserver.unobserve(counter);
+      }
+    });
+  }, { threshold: 0.5 });
 
   const animateCounter = (counter, target) => {
     const duration = 2000;
@@ -276,27 +286,11 @@ document.addEventListener('DOMContentLoaded', function() {
       current += stepValue;
       if (current > target) current = target;
       counter.textContent = Math.round(current);
-
-      if (current < target) {
-        requestAnimationFrame(updateCounter);
-      }
+      if (current < target) requestAnimationFrame(updateCounter);
     };
 
     updateCounter();
   };
-
-  const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const counter = entry.target;
-        const target = parseInt(counter.getAttribute('data-target'));
-        animateCounter(counter, target);
-        counterObserver.unobserve(counter);
-      }
-    });
-  }, {
-    threshold: 0.5
-  });
 
   counters.forEach(counter => counterObserver.observe(counter));
 });

@@ -8,7 +8,6 @@ Rails.application.routes.draw do
         get :about
         get :projects
         get :skills
-        get :testimonials
         get :contact
       end
     end
